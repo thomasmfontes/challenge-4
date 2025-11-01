@@ -1,5 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
+import Pacientes from "../pages/Pacientes";
+import PacienteDetalhe from "../pages/PacienteDetalhe";
+import Consultas from "../pages/Consultas";
 import Integrantes from "../pages/Integrantes";
 import IntegranteDetalhe from "../pages/IntegranteDetalhe";
 import Sobre from "../pages/Sobre";
@@ -10,8 +13,11 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/integrantes" element={<Integrantes />} />
-      <Route path="/integrantes/:rm" element={<IntegranteDetalhe />} />
+  <Route path="/pacientes" element={<Pacientes />} />
+  <Route path="/pacientes/:id" element={<PacienteDetalhe />} />
+  <Route path="/consultas" element={<Consultas />} />
+  <Route path="/integrantes" element={<Integrantes />} />
+  <Route path="/integrantes/:rm" element={<IntegranteDetalhe />} />
       <Route path="/sobre" element={<Sobre />} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/contato" element={<Contato />} />

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
+import CardIndicador from "../components/CardIndicador";
 
 // IMPORTS das imagens (se elas estão em src/assets/img)
 import javaPng from "../assets/img/java.png";
@@ -104,6 +105,17 @@ export default function Home() {
               <span className="absolute inset-[2px] rounded-full bg-white" />
               <span className="relative">Conheça o Projeto</span>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* INDICADORES */}
+      <section className="mt-8">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <CardIndicador title="Consultas de hoje" value={12} />
+            <CardIndicador title="Confirmadas" value={8} />
+            <CardIndicador title="Risco alto" value={2} />
           </div>
         </div>
       </section>

@@ -24,6 +24,8 @@ export default function Navbar() {
 
   const navItems = [
     { to: "/", label: "Início" },
+    { to: "/pacientes", label: "Pacientes" },
+    { to: "/consultas", label: "Consultas" },
     { to: "/integrantes", label: "Integrantes" },
     { to: "/faq", label: "FAQ" },
     { to: "/contato", label: "Contato" },
