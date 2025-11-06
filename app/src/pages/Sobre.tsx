@@ -1,4 +1,7 @@
 import Badge from "../components/Badge";
+import facialPng from "../assets/img/facial.png";
+import gestaoPng from "../assets/img/gestao.png";
+import chatbotPng from "../assets/img/chatbot.png";
 
 export default function Sobre() {
   return (
@@ -20,7 +23,7 @@ export default function Sobre() {
           {/* Sistema de enquadramento */}
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
             <img
-              src="src/assets/img/facial.png"
+              src={facialPng}
               alt="Sistema de enquadramento"
               className="mx-auto mb-4 h-28 w-28 rounded-xl object-contain p-2 shadow-inner"
               loading="lazy"
@@ -37,7 +40,7 @@ export default function Sobre() {
           {/* Gestão Inteligente */}
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
             <img
-              src="src/assets/img/gestao.png"
+              src={gestaoPng}
               alt="Gestão Inteligente"
               className="mx-auto mb-4 h-28 w-28 rounded-xl object-contain p-2 shadow-inner"
               loading="lazy"
@@ -54,7 +57,7 @@ export default function Sobre() {
           {/* Chatbot */}
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
             <img
-              src="src/assets/img/chatbot.png"
+              src={chatbotPng}
               alt="Chatbot"
               className="mx-auto mb-4 h-28 w-28 rounded-xl object-contain p-2 shadow-inner"
               loading="lazy"
