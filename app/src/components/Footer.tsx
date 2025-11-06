@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="bg-[#004E89] text-white">
@@ -9,24 +11,24 @@ export default function Footer() {
 
         {/* Links extras */}
         <nav className="order-1 flex gap-6 sm:order-2">
-          <a
-            href="/sobre"
+          <Link
+            to="/sobre"
             className="transition-colors hover:text-[#d4ecff] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
           >
             Sobre
-          </a>
-          <a
-            href="/faq"
+          </Link>
+          <Link
+            to="/faq"
             className="transition-colors hover:text-[#d4ecff] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
           >
             FAQ
-          </a>
-          <a
-            href="/contato"
+          </Link>
+          <Link
+            to="/contato"
             className="transition-colors hover:text-[#d4ecff] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
           >
             Contato
-          </a>
+          </Link>
         </nav>
       </div>
     </footer>
