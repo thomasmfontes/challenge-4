@@ -11,7 +11,6 @@ import Loading from "../components/Loading";
 import { formatDateTime } from "../utils/formatters";
 import Badge from "../components/Badge";
 
-// IMPORTS das imagens (se elas estão em src/assets/img)
 import javaPng from "../assets/img/java.png";
 import pythonPng from "../assets/img/python.png";
 import chatbotPng from "../assets/img/chatbot.png";
@@ -43,7 +42,6 @@ function Card({ img, alt, title, children }: CardProps) {
 }
 
 export default function Home() {
-  // palavras para o efeito
   const words = useRef<string[]>(["dia a dia", "sucesso", "bem-estar"]);
   const [typed, setTyped] = useState("");
   const [wIndex, setWIndex] = useState(0);
@@ -52,11 +50,9 @@ export default function Home() {
   const D_SPEED = 40;
   const PAUSE = 1000;
 
-  // Estado para consultas de alto risco
   const [altoRisco, setAltoRisco] = useState<IConsultaComPaciente[]>([]);
   const [loadingAltoRisco, setLoadingAltoRisco] = useState(false);
 
-  // Indicadores (dados reais)
   const [loadingIndicadores, setLoadingIndicadores] = useState(false);
   const [totalConsultas, setTotalConsultas] = useState<number>(0);
   const [totalConfirmadas, setTotalConfirmadas] = useState<number>(0);
@@ -79,24 +75,20 @@ export default function Home() {
         const t = setTimeout(() => setTyped(current.slice(0, typed.length - 1)), D_SPEED);
         return () => clearTimeout(t);
       }
-      // palavra apagada -> próxima
       setWIndex((i) => (i + 1) % words.current.length);
       setPhase("typing");
       return;
     }
 
-    // pausing
     const t = setTimeout(() => setPhase("deleting"), PAUSE);
     return () => clearTimeout(t);
   }, [typed, phase, wIndex]);
 
   useEffect(() => {
-    // Carrega alto risco (lista) e enriquece com nome do paciente, caso o backend não retorne embutido
     setLoadingAltoRisco(true);
     listarConsultasAltoRisco()
       .then(async (r) => {
         const base = r.map(mapConsulta);
-        // Descobre IDs sem nome embutido
         const missingIds = Array.from(
           new Set(
             base
@@ -138,7 +130,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Carrega todas as consultas e calcula totais
     async function loadIndicadores() {
       setLoadingIndicadores(true);
       try {
@@ -158,7 +149,6 @@ export default function Home() {
 
   return (
     <main className="bg-slate-50">
-      {/* HERO */}
       <section
         aria-label="Apresentação"
         className="relative overflow-hidden bg-gradient-to-br from-sky-500 via-sky-600 to-indigo-700 text-white"
@@ -198,7 +188,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* INDICADORES */}
       <section className="mt-8">
         <div className="mx-auto max-w-6xl px-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -207,7 +196,6 @@ export default function Home() {
             <CardIndicador title="Risco alto (total)" value={altoRisco.length} loading={loadingAltoRisco} />
           </div>
           
-          {/* Lista de consultas de alto risco */}
           <div className="mt-6 rounded-lg bg-white p-4 shadow-md">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-800">
@@ -223,7 +211,6 @@ export default function Home() {
               <p className="text-sm text-slate-600">Nenhuma consulta de alto risco no momento.</p>
             ) : (
               <>
-                {/* Mobile: cartões empilhados */}
                 <div className="md:hidden space-y-3">
                   {altoRisco.slice(0, 5).map((c) => (
                     <div key={c.id} className="rounded-lg border border-slate-100 p-3 shadow-sm">
@@ -245,7 +232,6 @@ export default function Home() {
                   ))}
                 </div>
 
-                {/* Desktop: tabela limpa e compacta */}
                 <div className="hidden md:block overflow-x-auto">
                   <table className="min-w-full table-fixed border-separate border-spacing-y-2">
                     <thead>
@@ -283,7 +269,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DESTAQUES */}
       <section
         aria-labelledby="destaques-title"
         className="bg-gradient-to-b from-slate-50 to-slate-100"
@@ -316,7 +301,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PERFIS DE USUÁRIO */}
       <section aria-labelledby="perfis-title" className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <h2 id="perfis-title" className="mb-10 text-center text-2xl font-semibold text-sky-900">
@@ -374,7 +358,7 @@ export default function Home() {
                 <li>Apoiam o paciente na preparação e comparecimento</li>
               </ul>
               <div className="mt-4">
-                <Link to="/consultas" className="text-sm font-medium text-sky-700 hover:text-sky-800">Configurar notificação →</Link>
+                <span className="text-xs text-slate-500">Acesso via link da consulta</span>
               </div>
             </article>
           </div>
