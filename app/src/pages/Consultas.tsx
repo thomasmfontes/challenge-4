@@ -21,7 +21,6 @@ export default function Consultas() {
   const [pageSize, setPageSize] = useState(5);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Modal de notificação
   const [notifyOpen, setNotifyOpen] = useState(false);
   const [notifyConsulta, setNotifyConsulta] = useState<IConsultaComPaciente | null>(null);
   const [notifyChannel, setNotifyChannel] = useState<"WHATSAPP" | "SMS" | "EMAIL" | "VOZ" | "LIGACAO">("WHATSAPP");
@@ -33,7 +32,6 @@ export default function Consultas() {
     setError(null);
     try {
       const data = await consultaService.listarTudo();
-      // Enriquecemos com dados do paciente quando o backend não incluir
       const precisaPacientes = (data || []).some((c) => !c.paciente);
       if (precisaPacientes) {
         try {
@@ -42,7 +40,6 @@ export default function Consultas() {
           const enriched = (data || []).map((c) => (c.paciente ? c : { ...c, paciente: byId.get(c.pacienteId) }));
           setConsultas(enriched || []);
         } catch (e) {
-          // Se falhar o fetch de pacientes, seguimos com as consultas sem exibir ID do paciente
           setConsultas(data || []);
         }
       } else {
@@ -59,8 +56,6 @@ export default function Consultas() {
   }
 
   useEffect(() => { load(); }, []);
-
-  // Abre formulário se vier com paciente selecionado via query string
   useEffect(() => {
     const p = searchParams.get("paciente");
     if (p) {
@@ -71,10 +66,9 @@ export default function Consultas() {
   async function handleCreate(payload: any) {
     try {
       await consultaService.criar(payload);
-      await load(); // recarrega para refletir IDs e mapeamentos
+      await load();
       setShowForm(false);
       success("Consulta agendada com sucesso!");
-      // Limpa query param de paciente após criar
       if (searchParams.get("paciente")) {
         searchParams.delete("paciente");
         setSearchParams(searchParams, { replace: true });
@@ -117,7 +111,7 @@ export default function Consultas() {
   async function handleConfirmar(consulta: IConsultaComPaciente) {
     try {
       await consultaService.confirmar(consulta);
-      await load(); // Recarrega a lista
+      await load(); 
       success("Consulta confirmada!");
     } catch (err) {
       console.error(err);
@@ -127,7 +121,6 @@ export default function Consultas() {
     }
   }
 
-  // Paginação client-side
   const total = consultas.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const currentPage = Math.min(page, totalPages);
@@ -170,7 +163,6 @@ export default function Consultas() {
       </div>
 
       <div className="mt-4">
-        {/* Erros críticos da página (opcional exibir também como banner) */}
         {error && <Alert tipo="error" mensagem={error} />}
 
         {showForm && (
@@ -187,7 +179,6 @@ export default function Consultas() {
 
         {!loading && !error && (
           <>
-            {/* Mobile: cards */}
             <div className="mt-4 space-y-3 md:hidden">
               {pagina.map((c) => (
                 <div key={c.id} className="rounded border bg-white p-3 shadow-sm">
@@ -244,7 +235,6 @@ export default function Consultas() {
               ))}
             </div>
 
-            {/* Desktop: tabela */}
             <div className="overflow-x-auto mt-4 hidden md:block">
               <table className="min-w-full divide-y divide-slate-200">
                 <thead className="bg-slate-50">
@@ -339,7 +329,6 @@ export default function Consultas() {
               </table>
             </div>
 
-            {/* Controles de paginação */}
             <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-3">
               <div className="text-sm text-slate-600">
                 Mostrando {total === 0 ? 0 : start + 1}–{end} de {total}
@@ -359,7 +348,6 @@ export default function Consultas() {
         )}
       </div>
 
-      {/* Modal de seleção de canal de notificação */}
       {notifyOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="w-full max-w-md rounded bg-white p-4 shadow-lg">
