@@ -43,7 +43,6 @@ export default function IntegranteDetalhe() {
               <span className="font-medium">Turma:</span> {integrante.turma}
             </p>
 
-            {/* Contatos extras */}
             <div className="flex flex-wrap justify-center gap-3 sm:justify-start">
               {integrante.github && (
                 <a
