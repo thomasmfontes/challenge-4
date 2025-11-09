@@ -5,7 +5,7 @@ Frontend oficial do projeto Challenge 2025 (2º Semestre), implementado como SPA
 Links obrigatórios:
 - Repositório: https://github.com/thomasmfontes/challenge-4
 - Deploy (Vercel): https://challenge-4-chi-five.vercel.app/
-- Vídeo de apresentação: https://youtu.be/SEU_VIDEO
+- Vídeo de apresentação: https://youtu.be/vEh5hcr33zg
 
 
 ## 1) Título e descrição do projeto
