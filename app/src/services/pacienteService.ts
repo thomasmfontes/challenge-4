@@ -1,10 +1,8 @@
 import { request } from "./api";
 import type { IPaciente, PacienteCreate } from "../types/paciente";
 
-// Endpoints expostos pelo backend Java
 const PREFIX = "/api/pacientes";
 
-// Tipagem da API Java (snake_case vindo do DAO/Controller)
 type PacienteApi = {
   id_paciente: number;
   nm_paciente: string;
@@ -15,7 +13,6 @@ type PacienteApi = {
   vl_total_faltas?: number | null;
 };
 
-// Variante camelCase caso o backend serialize getters Java (ex.: getIdPaciente)
 type PacienteApiCamel = {
   idPaciente: number;
   nmPaciente: string;
@@ -26,9 +23,7 @@ type PacienteApiCamel = {
   vlTotalFaltas?: number | null;
 };
 
-// Converte PacienteApi -> IPaciente (formato usado no front)
 function mapFromApi(p: PacienteApi | PacienteApiCamel | Record<string, any>): IPaciente {
-  // Normaliza chaves removendo underscores e lower-case para mapear diferentes convenções
   const norm: Record<string, any> = {};
   Object.keys(p || {}).forEach((k) => {
     norm[k.replace(/_/g, "").toLowerCase()] = (p as any)[k];
@@ -51,11 +46,8 @@ function mapFromApi(p: PacienteApi | PacienteApiCamel | Record<string, any>): IP
   };
 }
 
-// Converte payload do front -> formato esperado pelo backend Java
 function mapToApi(payload: Partial<PacienteCreate>) {
-  // Envia os dois formatos (snake_case e camelCase) para compatibilidade com diferentes serializadores Java
   const body: Record<string, unknown> = {
-    // snake_case
     nm_paciente: payload.nome,
     ds_telefone: payload.telefone ?? null,
     ds_canal_pref: payload.canalPreferido ?? null,
@@ -63,7 +55,6 @@ function mapToApi(payload: Partial<PacienteCreate>) {
   ds_tel_cuidador: payload.cuidadorTelefone ?? null,
     vl_total_faltas: 0,
 
-    // camelCase
     nmPaciente: payload.nome,
     dsTelefone: payload.telefone ?? null,
     dsCanalPref: payload.canalPreferido ?? null,

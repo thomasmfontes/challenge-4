@@ -3,9 +3,8 @@ import type { Integrante } from "../types/integrante";
 import data from "../data/integrantes.json";
 import CardIntegrante from "../components/CardIntegrante";
 import Badge from "../components/Badge";
-// Integração com API removida por solicitação: usamos apenas o arquivo local integrantes.json
 
-type SortKey = "nome" | "rm"; // <-- sem 'turma'
+type SortKey = "nome" | "rm";
 
 export default function Integrantes() {
   const [integrantes, setIntegrantes] = useState<Integrante[]>([]);
@@ -14,7 +13,6 @@ export default function Integrantes() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Usa somente o arquivo local
     setLoading(true);
     setIntegrantes(data as Integrante[]);
     setLoading(false);
@@ -58,7 +56,6 @@ export default function Integrantes() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      {/* Header */}
       <header className="mb-8 text-center">
         <h1 className="text-balance text-3xl font-bold tracking-tight text-slate-900">
           <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">
@@ -70,10 +67,8 @@ export default function Integrantes() {
           Equipe do projeto e suas informações básicas.
         </p>
 
-        {/* Barra de ferramentas */}
-        <div className="mt-6 flex flex-col items-center justify-between gap-3 sm:flex-row">
-          {/* Busca (sem turma) */}
-          <label className="relative w-full sm:w-80">
+          <div className="mt-6 flex flex-col items-center justify-between gap-3 sm:flex-row">
+            <label className="relative w-full sm:w-80">
             <span className="sr-only">Buscar integrante</span>
             <input
               value={q}
@@ -96,7 +91,6 @@ export default function Integrantes() {
             </svg>
           </label>
 
-          {/* Ordenação (sem turma) + Contagem */}
           <div className="flex items-center gap-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm text-slate-700 shadow-sm">
               <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
@@ -126,7 +120,6 @@ export default function Integrantes() {
           <div className="mb-4 text-center text-sm text-slate-600">Carregando integrantes...</div>
         )}
 
-      {/* Aviso de campos faltando */}
       {faltandoCampos.length > 0 && (
         <div
           role="alert"

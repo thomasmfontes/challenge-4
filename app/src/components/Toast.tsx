@@ -6,7 +6,7 @@ export type Toast = {
   id: string;
   message: string;
   type: ToastType;
-  duration?: number; // ms
+  duration?: number;
 };
 
 type ToastContextType = {
@@ -31,7 +31,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
   const push = (message: string, type: ToastType = "success", opts?: { duration?: number }) => {
     const duration = opts?.duration ?? 3000;
-    // Evitar duplicados: se já houver um toast ativo com mesma mensagem e tipo, não adicionar outro
     setToasts((current) => {
       const exists = current.some((x) => x.message.trim() === message.trim() && x.type === type);
       if (exists) return current;
@@ -49,7 +48,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     error: (message, opts) => push(message, "error", opts),
   }), []);
 
-  // Cleanup timers on unmount
   useEffect(() => () => {
     Object.values(timers.current).forEach((t) => t && window.clearTimeout(t));
   }, []);
@@ -57,7 +55,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      {/* Container */}
       <div className="pointer-events-none fixed right-4 top-20 z-50 flex w-full max-w-sm flex-col gap-2">
         {toasts.map((t) => (
           <div

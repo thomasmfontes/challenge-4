@@ -7,7 +7,6 @@ export default function Sobre() {
   return (
     <main className="bg-gradient-to-b from-slate-50 to-white">
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        {/* Cabeçalho */}
         <header className="text-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
             Nossa Solução
@@ -18,9 +17,7 @@ export default function Sobre() {
           </p>
         </header>
 
-        {/* Cards */}
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {/* Sistema de enquadramento */}
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
             <img
               src={facialPng}
@@ -37,7 +34,6 @@ export default function Sobre() {
             </p>
           </article>
 
-          {/* Gestão Inteligente */}
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
             <img
               src={gestaoPng}
@@ -54,7 +50,6 @@ export default function Sobre() {
             </p>
           </article>
 
-          {/* Chatbot */}
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
             <img
               src={chatbotPng}

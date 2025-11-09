@@ -5,6 +5,6 @@ export interface INotificacao {
   id: number;
   consultaId: number;
   canal: CanalNotificacao;
-  dataEnvio: string; // ISO
+  dataEnvio: string;
   status: NotificacaoStatus;
 }

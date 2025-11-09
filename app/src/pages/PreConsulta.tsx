@@ -23,37 +23,31 @@ export default function PreConsulta() {
   const camStreamRef = useRef<MediaStream | null>(null);
   const micStreamRef = useRef<MediaStream | null>(null);
   const { success, error: errorToast } = useToast();
-  // Áudio (medição de nível)
-  const [micLevel, setMicLevel] = useState(0); // 0..1
+  const [micLevel, setMicLevel] = useState(0);
   const [micMeasuring, setMicMeasuring] = useState(false);
   const audioCtxRef = useRef<any>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Tenta checar permissões rapidamente ao entrar (silencioso)
     if (!navigator.mediaDevices?.getUserMedia) return;
     const silentCheck = async () => {
       try {
         const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        // marca ambos ok, mas também libera preview se possível
         setCameraOk(true);
         setMicrofoneOk(true);
-        // Mantém stream de câmera para o preview
         camStreamRef.current = s;
         if (videoRef.current) {
           videoRef.current.srcObject = s;
           videoRef.current.muted = true;
           await videoRef.current.play().catch(() => {});
         }
-      } catch {
-        // Sem permissões — usuário pode testar manualmente
+      try {
       }
     };
     silentCheck();
 
     return () => {
-      // Cleanup streams ao sair
       camStreamRef.current?.getTracks().forEach((t) => t.stop());
       micStreamRef.current?.getTracks().forEach((t) => t.stop());
       stopMicAnalysis();
@@ -247,7 +241,6 @@ export default function PreConsulta() {
             <span className="ml-2 align-middle"><Badge variant="paciente">Perfil: Paciente</Badge></span>
           </h1>
 
-          {/* Ajuda */}
           <details className="rounded-md border bg-white p-4 shadow-sm">
             <summary className="cursor-pointer select-none text-sm font-medium text-slate-800">Problemas com câmera/microfone?</summary>
             <div className="mt-2 text-sm text-slate-600">

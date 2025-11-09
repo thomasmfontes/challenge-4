@@ -1,7 +1,6 @@
 import { request } from "./api";
 import type { IMedico, MedicoCreate } from "../types/medico";
 
-// Permite sobrescrever a rota via env (por exemplo, VITE_MEDICOS_PATH=/medicos)
 const ENV_PATH = (import.meta as any).env?.VITE_MEDICOS_PATH as string | undefined;
 const CANDIDATES = (
   ENV_PATH && ENV_PATH.trim()
@@ -32,7 +31,6 @@ async function tryList(paths: string[]): Promise<any[]> {
       if (Array.isArray(data)) return data;
       if (Array.isArray(data?.content)) return data.content;
       if (Array.isArray(data?.items)) return data.items;
-      // Se vier objeto único por engano, embrulha em array
       if (data && typeof data === "object") return [data];
       return [];
     } catch (e) {
@@ -47,7 +45,6 @@ export async function listar(): Promise<IMedico[]> {
   return (arr || []).map(mapFromApi).filter((m) => m?.id != null && m?.nome);
 }
 
-// Mantém os demais métodos apontando para o primeiro candidato ou ENV (quando aplicável)
 const BASE = CANDIDATES[0] || "/api/medicos";
 
 export async function buscarPorId(id: number): Promise<IMedico> {
@@ -57,13 +54,10 @@ export async function buscarPorId(id: number): Promise<IMedico> {
 
 export async function criar(payload: MedicoCreate): Promise<IMedico> {
   const body: Record<string, unknown> = {
-    // padrão front
     nome: payload.nome,
     especialidade: payload.especialidade ?? null,
-    // camelCase (Java getters)
     nmMedico: payload.nome,
     dsEspecialidade: payload.especialidade ?? null,
-    // snake_case
     nm_medico: payload.nome,
     ds_especialidade: payload.especialidade ?? null,
   };

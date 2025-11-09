@@ -6,9 +6,9 @@ export interface IConsulta {
   id: number;
   pacienteId: number;
   medicoId: number;
-  dataHora: string; // ISO string
+  dataHora: string;
   status: ConsultaStatus;
-  riscoAbsenteismo?: number; // 0-100
+  riscoAbsenteismo?: number;
 }
 
 export type IConsultaComPaciente = IConsulta & { paciente?: IPaciente };
