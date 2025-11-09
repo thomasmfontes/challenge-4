@@ -3,6 +3,42 @@ export const API_BASE_URL =
   ((import.meta.env as any).VITE_API_URL as string) ||
   "http://localhost:8080";
 
+export class HttpError extends Error {
+  status: number;
+  statusText: string;
+  body: any;
+  url: string;
+  constructor(message: string, init: { status: number; statusText: string; body: any; url: string }) {
+    super(message);
+    this.name = "HttpError";
+    this.status = init.status;
+    this.statusText = init.statusText;
+    this.body = init.body;
+    this.url = init.url;
+  }
+}
+
+function extractMessage(body: any): string | undefined {
+  if (!body) return undefined;
+  if (typeof body === "string") return body;
+  const keys = [
+    "mensagem",
+    "message",
+    "erro",
+    "error",
+    "detail",
+    "details",
+    "title",
+  ];
+  for (const k of keys) {
+    if (body?.[k]) return String(body[k]);
+  }
+  if (Array.isArray(body?.errors)) {
+    return body.errors.map((e: any) => e?.message || e?.mensagem || JSON.stringify(e)).join("; ");
+  }
+  return undefined;
+}
+
 export async function request<T>(path: string, opts: RequestInit = {}): Promise<T> {
   const url = `${API_BASE_URL}${path}`;
   try {
@@ -11,9 +47,14 @@ export async function request<T>(path: string, opts: RequestInit = {}): Promise<
     let body: any = null;
     try { body = text ? JSON.parse(text) : null; } catch { body = text; }
     if (!res.ok) {
-      const message = (body && (typeof body === "string" ? body : body.message)) || body || res.statusText;
-      const pretty = typeof message === "string" ? message : JSON.stringify(message);
-      throw new Error(`${res.status} ${res.statusText} - ${pretty}`);
+      const msg = extractMessage(body) ?? (typeof body === "string" ? body : undefined) ?? res.statusText;
+      const pretty = typeof msg === "string" ? msg : JSON.stringify(msg);
+      throw new HttpError(`${res.status} ${res.statusText} - ${pretty}`, {
+        status: res.status,
+        statusText: res.statusText,
+        body,
+        url,
+      });
     }
     return body as T;
   } catch (err) {
@@ -30,28 +71,23 @@ export async function listarConsultasAltoRisco() {
 }
 
 export async function confirmarConsulta(id: number) {
-  // Novo contrato do backend: POST /api/consultas/{id}/confirmar retorna a consulta atualizada
   return request<import("../types/consulta").ConsultaApi>(`/api/consultas/${id}/confirmar`, { method: "POST" });
 }
 
-// Notificações
 export async function enviarNotificacao(payload: {
   consultaId: number;
   canal: "WHATSAPP" | "SMS" | "EMAIL" | "VOZ" | "LIGACAO";
   paraCuidador?: boolean;
 }) {
-  // Backend Java validou idConsulta e dsCanal; enviamos todas as convenções
+
   const body: Record<string, unknown> = {
-    // nomes já usados no front
     consultaId: payload.consultaId,
     canal: payload.canal,
     paraCuidador: payload.paraCuidador ?? false,
 
-    // camelCase esperado pelo backend
     idConsulta: payload.consultaId,
     dsCanal: payload.canal,
 
-    // snake_case de fallback
     id_consulta: payload.consultaId,
     ds_canal: payload.canal,
   };
@@ -63,15 +99,13 @@ export async function enviarNotificacao(payload: {
   });
 }
 
-// Device-check
 export async function enviarDeviceCheck(payload: {
   consultaId: number;
   cameraOk: boolean;
   microfoneOk: boolean;
   redeOk: boolean;
 }) {
-  // Backend espera campos em camelCase com 'S'/'N'.
-  // Para evitar erros de propriedades desconhecidas no Jackson, enviamos APENAS os campos esperados.
+  
   const yesNo = (v: boolean) => (v ? "S" : "N");
   const body = {
     idConsulta: payload.consultaId,
@@ -88,8 +122,6 @@ export async function enviarDeviceCheck(payload: {
   });
 }
 
-// Mapper tolerante para converter objetos de consulta vindos do backend
-// Aceita diferentes convenções de nomes (idConsulta/id_consulta, dtConsulta, stConsulta, vlRiscoAbs, risco_absenteismo, etc.)
 export function mapConsulta(c: any): import("../types/consulta").IConsultaComPaciente {
   const norm: Record<string, any> = {};
   Object.keys(c || {}).forEach((k) => (norm[k.replace(/_/g, "").toLowerCase()] = (c as any)[k]));
@@ -100,7 +132,7 @@ export function mapConsulta(c: any): import("../types/consulta").IConsultaComPac
   const dataHora = norm["datahora"] ?? norm["dtconsulta"] ?? c?.dataHora ?? c?.dtConsulta;
   const status = norm["status"] ?? norm["stconsulta"] ?? c?.status ?? c?.stConsulta;
   const risco = norm["riscoabsenteismo"] ?? norm["vlriscoabs"] ?? (c as any)?.risco_absenteismo ?? c?.riscoAbsenteismo ?? 0;
-  const paciente = c?.paciente; // caso venha aninhado
+  const paciente = c?.paciente; 
 
   return {
     id,
