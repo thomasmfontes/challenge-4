@@ -42,7 +42,8 @@ export default function PreConsulta() {
           videoRef.current.muted = true;
           await videoRef.current.play().catch(() => {});
         }
-      try {
+      } catch {
+        // Sem permissões ou falha no getUserMedia — seguimos sem travar a tela
       }
     };
     silentCheck();
