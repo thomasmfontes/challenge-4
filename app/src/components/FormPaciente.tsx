@@ -84,7 +84,7 @@ export default function FormPaciente({ initial = {}, onCancel, onSave }: Props) 
       </fieldset>
 
       <div className="flex gap-2">
-        <button type="submit" disabled={saving} className="rounded bg-blue-600 text-white px-4 py-2">{saving ? "Salvando..." : "Salvar"}</button>
+        <button type="submit" disabled={saving} className="rounded bg-blue-600 px-4 py-2 text-white">{saving ? "Salvando..." : "Salvar"}</button>
         {onCancel && (
           <button type="button" onClick={onCancel} className="rounded border px-4 py-2">Cancelar</button>
         )}

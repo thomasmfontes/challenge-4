@@ -51,15 +51,15 @@ function mapToApi(payload: Partial<PacienteCreate>) {
     nm_paciente: payload.nome,
     ds_telefone: payload.telefone ?? null,
     ds_canal_pref: payload.canalPreferido ?? null,
-  nm_cuidador: payload.cuidadorNome ?? null,
-  ds_tel_cuidador: payload.cuidadorTelefone ?? null,
+    nm_cuidador: payload.cuidadorNome ?? null,
+    ds_tel_cuidador: payload.cuidadorTelefone ?? null,
     vl_total_faltas: 0,
 
     nmPaciente: payload.nome,
     dsTelefone: payload.telefone ?? null,
     dsCanalPref: payload.canalPreferido ?? null,
-  nmCuidador: payload.cuidadorNome ?? null,
-  dsTelCuidador: payload.cuidadorTelefone ?? null,
+    nmCuidador: payload.cuidadorNome ?? null,
+    dsTelCuidador: payload.cuidadorTelefone ?? null,
     vlTotalFaltas: 0,
   };
   return body;

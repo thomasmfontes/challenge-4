@@ -1,7 +1,7 @@
 export const API_BASE_URL =
   ((import.meta.env as any).VITE_API_BASE_URL as string) ||
   ((import.meta.env as any).VITE_API_URL as string) ||
-  "http://localhost:8080";
+  "https://consultas-medicas-api-423158965119.southamerica-east1.run.app";
 
 export class HttpError extends Error {
   status: number;
