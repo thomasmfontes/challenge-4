@@ -102,3 +102,43 @@ Deploy na Vercel:
     - Output Directory: `dist`
     - Env: `VITE_API_BASE_URL=https://sua-api.exemplo.com`
 2) Alternativamente, manter um `vercel.json` dentro de `app/` (já existe) com as mesmas configurações.
+
+
+## 5) Critérios de avaliação
+
+Base sugerida:
+- Funcionalidades atendidas (Consultas, Pacientes, Notificações, Pré‑consulta, Indicadores, Páginas públicas).
+- Qualidade do layout e UX (consistência visual, estados de carregamento/erro, feedback via toast, microinterações).
+- Responsividade (mobile‑first, grid fluido, testes em diferentes breakpoints).
+- Código limpo e organização (componentização, serviços, tipagem, nomes claros, ausência de dead code).
+- Boas práticas de acessibilidade (semântica, roles/aria, foco, contraste, textos descritivos).
+- Versionamento (histórico de commits distribuído entre integrantes, mensagens claras).
+- Deploy funcional (Vercel) e documentação (README completo).
+- Apresentação em vídeo demonstrando fluxo principal e decisões técnicas.
+
+
+## 6) Boas práticas e padrões obrigatórios
+
+- Git e versionamento
+   - Branches por feature/correção; PRs com descrição e revisão.
+   - Commits semânticos: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `perf:`, `test:`.
+- Arquitetura
+   - SPA modular, separação por camadas (UI, services, types, utils).
+   - Evitar `any` desnecessário, preferir tipos explícitos.
+- Acessibilidade e responsividade
+   - Layout mobile‑first; uso de `aria-*` e `role` quando necessário.
+   - Contraste adequado e foco visível.
+- UX e feedback
+   - Uso de toasts em operações assíncronas (sucesso/erro).
+   - Evitar `alert/prompt`; confirmação nativa apenas quando estritamente necessária.
+- Qualidade
+   - Lint: `npm run lint` e correções antes do commit.
+   - Build sempre verde localmente antes de abrir PR/deploy.
+
+
+## 7) Autores e licença
+
+Integrantes:
+- Gabriel Maciel — RM: 562795 — Turma: 1TDSR
+- Matheus Molina — RM: 563399 — Turma: 1TDSR
+- Thomas Fontes — RM: 562254 — Turma: 1TDSR
